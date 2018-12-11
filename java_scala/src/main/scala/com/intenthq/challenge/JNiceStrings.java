@@ -1,6 +1,7 @@
 package com.intenthq.challenge;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class JNiceStrings {
   // From http://adventofcode.com/day/5
@@ -22,8 +23,19 @@ public class JNiceStrings {
   //    dvszwmarrgswjxmb is naughty because it contains only one vowel.
   //    How many strings are nice?
 
+  static final Pattern repeatedChars = Pattern.compile("^.*(.)\\1+.*$");
+  static final Pattern stringExclusion = Pattern.compile("^((?!ab|cd|pq|xy).)*$");
+  static final Pattern threeOrMoreVowels = Pattern.compile("^.*[aeiou].*[aeiou].*[aeiou].*$", Pattern.CASE_INSENSITIVE);
+	
   public static int nice(List<String> xs) {
-    throw new RuntimeException("Not implemented");
+	  
+	  int res = 0;
+	  for (String s : xs){	
+		  if (repeatedChars.matcher(s).matches() 
+				  & stringExclusion.matcher(s).matches() 
+				  & threeOrMoreVowels.matcher(s).matches()) 
+			  			res++;
+	  }
+	  return res;
   }
-
 }
